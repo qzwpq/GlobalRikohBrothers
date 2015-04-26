@@ -1,0 +1,27 @@
+div#myTweets{
+	position: relative;
+	top: 15px;
+}
+.header,.main{
+	background-color: #ffffff;
+	opacity: 1.0;
+}
+
+textarea {
+	resize: none;
+}
+
+header{
+	padding: 4px;
+}
+
+.twitter-share-button{
+	position: relative;
+	top:4px;
+}
+
+footer {
+	position: fixed;
+	bottom: 3px;
+	z-index: -5;
+}

@@ -1,0 +1,51 @@
+<template name="getTagModal">
+	<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#getTag">タイムラインからタグを取得</button>
+	<div id="getTag" class="modal fade getTag">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">タイムラインからタグを取得</h4>
+				</div>
+				<div class="modal-body row">
+					{{> getTagModalBody}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="getTagModalBody">
+	<div class="col-xs-2">
+		<form id="getTagForm">
+			<input type="submit" value="取得" class="timeline btn form-control btn-xs">
+		</form>
+	</div>
+	<div class="col-xs-4">
+		<form id="addStationFromSuggestion">
+			<input type="submit" value="Add(Station)" class="timeline btn form-control btn-xs" disabled>
+		</form>
+	</div>
+	<div class="col-xs-6">
+		<div class="row">
+			<div class="col-xs-6">
+				<select class="form-control" id="targetStation">
+					{{> stationList}}
+				</select>
+			</div>
+			<div class="col-xs-6">
+				<form id="addProgramFromSuggestion">
+					<input type="submit" value="Add(Program)" class="timeline btn form-control btn-xs" disabled>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12">
+		番組に追加したいときは対象となる放送局も指定してください
+	</div>
+	<div class="col-xs-12">
+		<select multiple class="form-control" id="tagSuggestion">
+		</select>
+	</div>
+	<div class="col-xs-12" id="tagSuggestionStatus"></div>
+</template>

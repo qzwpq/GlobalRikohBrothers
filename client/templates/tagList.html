@@ -1,0 +1,13 @@
+<template name="stationList">
+	<option value="blank_" selected>タグ無し</option>
+	{{#each stations}} {{> tag}} {{/each}}
+</template>
+
+<template name="programList">
+	<option value="">タグ無し</option>
+	{{#each programs}} {{> tag}} {{/each}}
+</template>
+
+<template name="tag">
+	<option value="{{this}}">{{this}}</option>
+</template>

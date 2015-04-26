@@ -1,0 +1,24 @@
+<template name="tweetArea">
+	<form id="newTweet">
+		<div class="form-group">
+			<textarea class="form-control" rows="8" name="text" id="newTweetText" placeholder="Type to tweet" autofocus></textarea>
+			<button type="submit" value="Tweet" class="form-control btn btn-default btn-xs">
+				<span class="glyphicon glyphicon-send"></span>
+			</button>
+		</div>
+	</form>
+	<div class="row">
+		<div class="col-xs-6 form-group">
+			<label for="station" class="control-label">Station</label>
+			<select id="station" class="form-control" onChange="Meteor.call('changeStation',$(this).val())">
+				{{> stationList}}
+			</select>
+		</div>
+		<div class="col-xs-6 form-group">
+			<label for="program" class="control-label">Program</label>
+			<select id="program" class="form-control">
+				{{> programList}}
+			</select>
+		</div>
+	</div>
+</template>

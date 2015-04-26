@@ -1,0 +1,34 @@
+<body>
+	<header class="header">
+		<div class="container-fluid">{{> header}}</div>
+	</header>
+
+
+	<div class="container-fluid main">
+		{{#if currentUser}} {{#if loggingIn}} {{else}}
+
+		<div class="row">
+			<div class="col-sm-6">
+
+				{{> tweetArea}}
+
+				<div class="row col-xs-12">
+
+					{{> configTagModal}} {{> getTagModal}}
+
+				</div>
+
+			</div>
+
+			<div id="myTweets" class="col-sm-6">
+				{{>tweetsHistory}}
+			</div>
+
+		</div>
+		{{/if}} {{/if}}
+	</div>
+
+	<footer class="footer">
+		<div class="container-fluid">{{> footer}}</div>
+	</footer>
+</body>
