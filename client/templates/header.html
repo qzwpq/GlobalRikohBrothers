@@ -1,21 +1,15 @@
 <template name="header">
+	{{#if isSimpleMode}} {{else}}
+
 	{{> loginButtons}}
 
-	<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://globalrikohbrothers.meteor.com" data-text="Twitter実況用クライアントグローバル理工兄弟Web版" data-lang="ja" data-dnt="true">ツイート</a>
-	<script>
-		! function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0],
-				p = /^http:/.test(d.location) ? 'http' : 'https';
-			if (!d.getElementById(id)) {
-				js = d.createElement(s);
-				js.id = id;
-				js.src = p + '://platform.twitter.com/widgets.js';
-				fjs.parentNode.insertBefore(js, fjs);
-			}
-		}(document, 'script', 'twitter-wjs');
-	</script>
+	{{/if}}
 
-	{{#if currentUser}} {{#if loggingIn}} Processing... {{/if}} {{else}}
+	{{#if currentUser}} {{#if loggingIn}} Processing... {{else}}
+
+	<button type="button" class="btn btn-default btn-xs" id="toggleSimpleMode">{{#if isSimpleMode}}SimpleMode{{else}}NormalMode{{/if}}</button>
+
+	{{/if}} {{else}}
 	<p>認証が必要です</p>
 	<p>このサイトはWindows向けTwitter実況用クライアント<em>グローバル理工兄弟</em>のWeb版です</p>
 	{{/if}}

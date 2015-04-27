@@ -1,40 +1,58 @@
 Meteor.subscribe("tags");
 var MY_TWEETS_LIST_NUM=10;
 
-var ulRotate=function(targetTag,newLi){
-	var $ul=$(targetTag);
-	$ul.prepend("<li>"+newLi+"</li>");
-	if($ul.children().length>=MY_TWEETS_LIST_NUM){
-		$ul.children(":last-child").remove();
-	}
-};
-
 var sanitize=function(text){
 	return $("<div>").text(text).html();
 };
 
-Template.tweetArea.events({
-	"submit #newTweet": function(event) {
-		var text = event.target.text.value;
-		text = text.trim();
-		if (!text) {
-			event.target.text.value = "";
-			$("#newTweetText").focus();
-			return false;
-		}
-		var station = $("#station").val();
-		var program = $("#program").val();
-		var tagArray=[station,program];
-		Meteor.call("postTweet", text,tagArray, function(err, res) {
-			if (err) console.log(err);
+var postTweet=function(text,tagArray,$textArea,$myTweetsList){
+	text=text.trim();
+	if(!text){
+		$textArea.focus();
+		return;
+	}
+	if(tagArray.length===0)tagArray.push("");
+	Meteor.call("postTweet",text,tagArray,function(err,res){
+		if(err)console.log(err);
+		if($myTweetsList !== void 0){
 			var result = !err ? res.data.text : text;
 			var isSucceeded = !err ? "ok" : "remove";
 			isSucceeded='<span class="glyphicon glyphicon-'+isSucceeded+'"></span> ';
 			result=sanitize(result);
-			ulRotate("#myTweetsList",isSucceeded+result);
-		});
-		event.target.text.value = "";
-		$("#newTweetText").focus();
+			result=isSucceeded+result;
+			$myTweetsList.prepend("<li>"+result+"</li>");
+			if($myTweetsList.children().length>=MY_TWEETS_LIST_NUM){
+				$myTweetsList.children(":last-child").remove();
+			}
+		}
+	});
+	$textArea.val("");
+	$textArea.focus();
+	return;
+};
+
+Template.registerHelper(
+	"isSimpleMode",function(){
+		if(!Meteor.user()) return false;
+		return Tags.findOne().isSimpleMode;
+	}
+);
+
+Template.header.events({
+	"click #toggleSimpleMode":function(){
+		var oldCondition=Tags.findOne().isSimpleMode;
+		Meteor.call("toggleSimpleMode",!oldCondition);
+	}
+});
+
+Template.tweetArea.events({
+	"submit #newTweet": function(event) {
+		var text = event.target.text.value;
+		var $textArea=$(event.target.text);
+		var station = $("#station").val();
+		var program = $("#program").val();
+		var tagArray=[station,program];
+		postTweet(text,tagArray,$textArea,$("#myTweetsList"));
 		return false;
 	}
 });
@@ -139,6 +157,16 @@ Template.getTagModal.events({
 		return false;
 	}
 });
+
+Template.simpleMode.events({
+	"submit #newTweet":function(event){
+		var text=event.target.text.value;
+		var $textArea=$(event.target.text);
+		postTweet(text,[],$textArea);
+		return false;
+	}
+})
+
 $(function($) {
 	//Ctrl+Enter
 	$(window).keydown(function(e) {

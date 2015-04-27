@@ -36,7 +36,7 @@ function confirmProgram (program,stationName,userId) {
 
 Meteor.methods({
 	postTweet:function(text,tagArray){
-		if(Meteor.user()){
+		if(Meteor.user()&&(_.isArray(tagArray))&&(tagArray.length>0)){
 			_.chain(tagArray)
 			.filter(function(a){return (validateString(a))&&(a!=="blank_");})
 			.map(function(a){text=text+" #"+a;});
@@ -87,6 +87,11 @@ Meteor.methods({
 		if(Meteor.user()&&n>0&&n<=200){
 			return twitter.homeTimeline({count:n});
 		}
+	},
+	toggleSimpleMode:function(newCondition){
+		if(Meteor.user()&&((typeof newCondition)==="boolean")){
+			Tags.update({owner:this.userId},{$set:{isSimpleMode:newCondition}});
+		}
 	}
 });
 
@@ -100,7 +105,8 @@ Meteor.publish("tags",function(){
 					programs:[]
 				}
 			},
-			selectedStation:"blank_"
+			selectedStation:"blank_",
+			isSimpleMode:false
 		});
 	}
 	else {

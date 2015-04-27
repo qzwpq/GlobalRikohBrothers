@@ -1,4 +1,5 @@
 <template name="footer">
+	{{#if isSimpleMode}}{{else}}
 	<div id="footerContent" class="collapse in">
 		{{#if currentUser}} {{#if loggingIn}} {{else}}
 		<p>Ctrl+Enterで送信</p>
@@ -9,4 +10,5 @@
 		<address><p>連絡先:<a href="https://twitter.com/qzwpq">@qzwpq</a></p></address>
 	</div>
 	<button type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#footerContent">隠す</button>
+	{{/if}}
 </template>
