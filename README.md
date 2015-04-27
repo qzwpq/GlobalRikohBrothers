@@ -8,6 +8,7 @@ Meteorにより動いています
 ## ローカルで動かす方法
 [Meteorをインストール](https://www.meteor.com)  
 TwitterのConsumer KeyおよびConsumer Secretをあらかじめ[取得](https://apps.twitter.com)しておく
+Callback URLには`http://127.0.0.1:3000/_oauth/twitter?close`を指定しておいてください
 ### OS X or Linux
 ```shell
 git clone https://github.com/qzwpq/GlobalRikohBrothers.git ~/globalrikohbrothers
