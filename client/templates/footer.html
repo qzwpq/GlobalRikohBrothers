@@ -1,6 +1,6 @@
 <template name="footer">
-	{{#if isSimpleMode}}{{else}}
-	<div id="footerContent" class="collapse in">
+	{{#unless isSimpleMode}}
+	<div id="footerContent" class="collapse {{#unless _isFooterHidden}}in{{/unless}}">
 		{{#if currentUser}} {{#unless loggingIn}}
 		<p>Ctrl+Enterで送信</p>
 		<p>番組のタグのみを付けたいときは放送局のタグを<b>タグ無し</b>に指定してください</p>
@@ -9,6 +9,7 @@
 		<p><a href="https://github.com/qzwpq/GlobalRikohBrothers">Fork me on GitHub</a></p>
 		<address><p>連絡先:<a href="https://twitter.com/qzwpq">@qzwpq</a></p></address>
 	</div>
-	<button type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#footerContent">隠す</button>
-	{{/if}}
+	<button type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#footerContent">{{#if isFooterHidden}}開く{{else}}隠す{{/if}}</button>
+	{{#if isFooterHidden}}hidden{{else}}visible{{/if}}
+	{{/unless}}
 </template>
