@@ -5,27 +5,14 @@ var sanitize=function(text){
 	return $("<div>").text(text).html();
 };
 
-var postTweet=function(text,tagArray,$textArea,$myTweetsList){
+var postTweet=function(text,tagArray,$textArea,callback){
 	text=text.trim();
 	if(!text){
 		$textArea.focus();
 		return;
 	}
 	if(tagArray.length===0)tagArray.push("");
-	Meteor.call("postTweet",text,tagArray,function(err,res){
-		if(err)console.log(err);
-		if($myTweetsList !== void 0){
-			var result = !err ? res.data.text : text;
-			var isSucceeded = !err ? "ok" : "remove";
-			isSucceeded='<span class="glyphicon glyphicon-'+isSucceeded+'"></span> ';
-			result=sanitize(result);
-			result=isSucceeded+result;
-			$myTweetsList.prepend("<li>"+result+"</li>");
-			if($myTweetsList.children().length>=MY_TWEETS_LIST_NUM){
-				$myTweetsList.children(":last-child").remove();
-			}
-		}
-	});
+	Meteor.call("postTweet",text,tagArray,callback);
 	$textArea.val("");
 	$textArea.focus();
 	return;
@@ -51,8 +38,20 @@ Template.tweetArea.events({
 		var $textArea=$(event.target.text);
 		var station = $("#station").val();
 		var program = $("#program").val();
-		var tagArray=[station,program];
-		postTweet(text,tagArray,$textArea,$("#myTweetsList"));
+		var tagArray = [station, program];
+		var $myTweetsList = $("#myTweetsList");
+		postTweet(text, tagArray, $textArea, function(err, res) {
+			if (err) console.log(err);
+			var result = !err ? res.data.text : text;
+			var isSucceeded = !err ? "ok" : "remove";
+			isSucceeded = '<span class="glyphicon glyphicon-' + isSucceeded + '"></span> ';
+			result = sanitize(result);
+			result = isSucceeded + result;
+			$myTweetsList.prepend("<li>" + result + "</li>");
+			if ($myTweetsList.children().length >= MY_TWEETS_LIST_NUM) {
+				$myTweetsList.children(":last-child").remove();
+			}
+		});
 		return false;
 	}
 });
