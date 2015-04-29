@@ -95,13 +95,13 @@ Meteor.methods({
 	},
 	toggleFooter:function(newCondition){
 		if(Meteor.user()&&((typeof newCondition)==="boolean")){
-			Tags.update({owner:this.userId},{$set:{isFooterHidden:newCondition}});
+			Tags.update({owner:this.userId},{$set:{_isFooterHidden:newCondition}});
 		}
 	},
-	footerInitialize:function(){
+	initializeFooter:function(){
 		if(Meteor.user()){
-			var newCondition=Tags.findOne({owner:this.userId}).isFooterHidden;
-			Tags.update({owner:this.userId},{$set:{_isFooterHidden:newCondition}});
+			var newCondition=Tags.findOne({owner:this.userId})._isFooterHidden;
+			Tags.update({owner:this.userId},{$set:{isFooterHidden:newCondition}});
 		}
 	}
 });
@@ -118,7 +118,8 @@ Meteor.publish("tags",function(){
 			},
 			selectedStation:"blank_",
 			isSimpleMode:false,
-			isFooterHidden:false
+			isFooterHidden:false,
+			_isFooterHidden:false
 		});
 	}
 	else {

@@ -167,7 +167,10 @@ Template.simpleMode.events({
 });
 
 Template.footer.events({
-	'click button[data-target="#footerContent"]':function(){
+	'click button[data-target="#footerContent"]':function(event){
+		$(event.target).text(function(i, old){
+			return old==="隠す"?"開く":"隠す";
+		});
 		var oldCondition=Tags.findOne().isFooterHidden;
 		Meteor.call("toggleFooter",!oldCondition);
 	}
@@ -177,15 +180,11 @@ Template.footer.helpers({
 	isFooterHidden:function(){
 		if(!Meteor.user()) return false;
 		return Tags.findOne().isFooterHidden;
-	},
-	_isFooterHidden:function(){
-		if(!Meteor.user()) return false;
-		return Tags.findOne()._isFooterHidden;
 	}
 });
 
 Template.footer.onCreated(function(){
-	Meteor.call("footerInitialize");
+	Meteor.call("initializeFooter");
 });
 
 $(function($) {
