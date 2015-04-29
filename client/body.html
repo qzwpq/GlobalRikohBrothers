@@ -5,7 +5,7 @@
 
 
 	<div class="container-fluid main">
-		{{#if currentUser}} {{#if loggingIn}} {{else}} {{#if isSimpleMode}}
+		{{#if currentUser}} {{#unless loggingIn}} {{#if isSimpleMode}}
 		<div class="row">
 			{{> simpleMode}}
 		</div>
@@ -30,7 +30,7 @@
 			</div>
 
 		</div>
-		{{/if}} {{/if}} {{/if}}
+		{{/if}} {{/unless}} {{/if}}
 	</div>
 
 	<footer class="footer">
