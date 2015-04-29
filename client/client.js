@@ -165,7 +165,29 @@ Template.simpleMode.events({
 		postTweet(text,[],$textArea);
 		return false;
 	}
-})
+});
+
+Template.footer.events({
+	'click button[data-target="#footerContent"]':function(){
+		var oldCondition=Tags.findOne().isFooterHidden;
+		Meteor.call("toggleFooter",!oldCondition);
+	}
+});
+
+Template.footer.helpers({
+	isFooterHidden:function(){
+		if(!Meteor.user()) return false;
+		return Tags.findOne().isFooterHidden;
+	},
+	_isFooterHidden:function(){
+		if(!Meteor.user()) return false;
+		return Tags.findOne()._isFooterHidden;
+	}
+});
+
+Template.footer.onCreated(function(){
+	Meteor.call("footerInitialize");
+});
 
 $(function($) {
 	//Ctrl+Enter
@@ -176,11 +198,6 @@ $(function($) {
 				return false;
 			}
 		}
-	});
-	$('button[data-target="#footerContent"]').click(function(){
-		$(this).text(function(i,old){
-			return old==="隠す"?"開く":"隠す";
-		});
 	});
 });
 

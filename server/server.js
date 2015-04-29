@@ -92,6 +92,17 @@ Meteor.methods({
 		if(Meteor.user()&&((typeof newCondition)==="boolean")){
 			Tags.update({owner:this.userId},{$set:{isSimpleMode:newCondition}});
 		}
+	},
+	toggleFooter:function(newCondition){
+		if(Meteor.user()&&((typeof newCondition)==="boolean")){
+			Tags.update({owner:this.userId},{$set:{isFooterHidden:newCondition}});
+		}
+	},
+	footerInitialize:function(){
+		if(Meteor.user()){
+			var newCondition=Tags.findOne({owner:this.userId}).isFooterHidden;
+			Tags.update({owner:this.userId},{$set:{_isFooterHidden:newCondition}});
+		}
 	}
 });
 
@@ -106,7 +117,8 @@ Meteor.publish("tags",function(){
 				}
 			},
 			selectedStation:"blank_",
-			isSimpleMode:false
+			isSimpleMode:false,
+			isFooterHidden:false
 		});
 	}
 	else {
