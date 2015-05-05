@@ -29,6 +29,7 @@ Template.header.events({
 	"click #toggleSimpleMode":function(){
 		var oldCondition=Tags.findOne().isSimpleMode;
 		Meteor.call("toggleSimpleMode",!oldCondition);
+		Meteor.call("initializeFooter");
 	}
 });
 
