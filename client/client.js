@@ -105,6 +105,9 @@ Template.getTagModal.events({
 			}
 			if(tagPool.length===0){
 				$("#tagSuggestionStatus").text("There are no tags in your timeline.");
+				$(".timeline").each(function(){
+					$(this).prop("disabled",function(i, v) { return !v; });
+				});
 				return false;
 			}
 			var result=_.chain(tagPool)
