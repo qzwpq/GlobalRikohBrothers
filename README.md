@@ -30,3 +30,6 @@ OS Xでは起動確認をとっていません
 ### Windows
 なんとかして上と同じ手順を踏んでください  
 起動確認はとっていません
+
+## License
+The MIT license
